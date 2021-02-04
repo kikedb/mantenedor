@@ -13,12 +13,23 @@ class App extends Component {
     .then(({ data }) => this.setState( {data} ))
   }
 
+  seleccionaUsuario = id => {
+    console.log(id)
+    this.setState({
+      ruta: 'formulario',
+      usuarioSeleccionado: id,
+    })
+  }
+
   render() {
     console.log(this.state)
     const { ruta, data } = this.state
     return (
       <div className="App">
-        {ruta === 'lista' && <ViewList data={data}/>}
+        {ruta === 'lista' && <ViewList 
+          handleClick={this.seleccionaUsuario} 
+          data={data}
+        />}
         {ruta === 'formulario' && <UserForm />}
       </div>
     );
