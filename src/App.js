@@ -8,25 +8,41 @@ class App extends Component {
     data : [],
     ruta: 'lista',
   }
+
+  // constructor() {
+  //   super()
+  //   axios.get('https://jsonplaceholder.typicode.com/users')
+  //   .then(({ data }) => this.setState( {data} ))
+  // }
+
   componentDidMount() {
     axios.get('https://jsonplaceholder.typicode.com/users')
     .then(({ data }) => this.setState( {data} ))
   }
 
   seleccionaUsuario = id => {
-    console.log(id)
     this.setState({
       ruta: 'formulario',
       usuarioSeleccionado: id,
     })
   }
 
+  agregarNuevoUsuario = usuario => {
+    axios.post('https://jsonplaceholder.typicode.com/users', usuario)
+    .then(({ data }) => {
+      const newData = this.state.data.concat(data)
+      this.setState({
+        data: newData,
+        ruta: 'lista'
+      })
+    })
+  }
+
   nuevoUsuario = () => {
-    this.setState({ruta: 'formulario' })
+    this.setState({ruta: 'formulario', usuarioSeleccionado: undefined })
   }
 
   render() {
-    console.log(this.state)
     const { ruta, data } = this.state
     return (
       <div className="App">
@@ -35,7 +51,7 @@ class App extends Component {
           handleClick={this.seleccionaUsuario} 
           data={data}
         />}
-        {ruta === 'formulario' && <UserForm />}
+        {ruta === 'formulario' && <UserForm handleSubmit={this.agregarNuevoUsuario} />}
       </div>
     );
   }

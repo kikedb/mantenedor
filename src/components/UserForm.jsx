@@ -20,7 +20,7 @@ export default class UserForm extends Component {
 
     handleChange = ({ target }) => {
         this.setState({
-            [target.value]: target.value
+            [target.name]: target.value,
         })
     }
 
@@ -29,21 +29,23 @@ export default class UserForm extends Component {
         const {errors, ...sinErrors } = this.state
         const result = validate(sinErrors)
         this.setState({errors: result })
-        if(Object.keys(result).length) {
-            // Envio del formulario
+        if(!Object.keys(result).length) {
+            const { handleSubmit } = this.props
+            handleSubmit(sinErrors)
             e.target.reset()
         }
     }
 
     render() {
+        console.log(this.state);
         const {errors} = this.state
         return (
             <form onSubmit={this.handleSubmit}>
-                <input placeholder="nombre" onChange={this.handleChange} name="name" />
+                <input placeholder="Nombre" onChange={this.handleChange} name="name" />
                 {errors.name && <p>{errors.name}</p>}
-                <input placeholder="email" onChange={this.handleChange} name="email" />
+                <input placeholder="Email" onChange={this.handleChange} name="email" />
                 {errors.email && <p>{errors.email}</p>}
-                <input placeholder="website" onChange={this.handleChange} name="website" />
+                <input placeholder="Sitio web" onChange={this.handleChange} name="website" />
                 {errors.website && <p>{errors.website}</p>}
                 <input type="submit" value="Enviar"/>
             </form>
