@@ -21,12 +21,17 @@ class App extends Component {
     })
   }
 
+  nuevoUsuario = () => {
+    this.setState({ruta: 'formulario' })
+  }
+
   render() {
     console.log(this.state)
     const { ruta, data } = this.state
     return (
       <div className="App">
         {ruta === 'lista' && <ViewList 
+          nuevoUsuario={this.nuevoUsuario} 
           handleClick={this.seleccionaUsuario} 
           data={data}
         />}
